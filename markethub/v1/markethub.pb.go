@@ -12,6 +12,8 @@ import (
 	trade "github.com/kaito2/ssigmaapigo/type/trade"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -742,6 +744,20 @@ type MarketHubServiceV1Server interface {
 	GetTrades(*GetTradesRequest, MarketHubServiceV1_GetTradesServer) error
 	GetOrderBooks(*GetOrderBooksRequest, MarketHubServiceV1_GetOrderBooksServer) error
 	GetTradesAndOrderBooks(*GetTradesAndOrderBooksRequest, MarketHubServiceV1_GetTradesAndOrderBooksServer) error
+}
+
+// UnimplementedMarketHubServiceV1Server can be embedded to have forward compatible implementations.
+type UnimplementedMarketHubServiceV1Server struct {
+}
+
+func (*UnimplementedMarketHubServiceV1Server) GetTrades(req *GetTradesRequest, srv MarketHubServiceV1_GetTradesServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetTrades not implemented")
+}
+func (*UnimplementedMarketHubServiceV1Server) GetOrderBooks(req *GetOrderBooksRequest, srv MarketHubServiceV1_GetOrderBooksServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetOrderBooks not implemented")
+}
+func (*UnimplementedMarketHubServiceV1Server) GetTradesAndOrderBooks(req *GetTradesAndOrderBooksRequest, srv MarketHubServiceV1_GetTradesAndOrderBooksServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetTradesAndOrderBooks not implemented")
 }
 
 func RegisterMarketHubServiceV1Server(s *grpc.Server, srv MarketHubServiceV1Server) {

@@ -10,6 +10,8 @@ import (
 	market "github.com/kaito2/ssigmaapigo/type/market"
 	orderbook "github.com/kaito2/ssigmaapigo/type/orderbook"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -102,6 +104,14 @@ func (x *pashiriRestServiceV1GetOrderBookClient) Recv() (*orderbook.OrderBook, e
 // PashiriRestServiceV1Server is the server API for PashiriRestServiceV1 service.
 type PashiriRestServiceV1Server interface {
 	GetOrderBook(*market.Market, PashiriRestServiceV1_GetOrderBookServer) error
+}
+
+// UnimplementedPashiriRestServiceV1Server can be embedded to have forward compatible implementations.
+type UnimplementedPashiriRestServiceV1Server struct {
+}
+
+func (*UnimplementedPashiriRestServiceV1Server) GetOrderBook(req *market.Market, srv PashiriRestServiceV1_GetOrderBookServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetOrderBook not implemented")
 }
 
 func RegisterPashiriRestServiceV1Server(s *grpc.Server, srv PashiriRestServiceV1Server) {
