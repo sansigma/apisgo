@@ -10,6 +10,8 @@ import (
 	market "github.com/kaito2/ssigmaapigo/type/market"
 	trade "github.com/kaito2/ssigmaapigo/type/trade"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -102,6 +104,14 @@ func (x *pashiriWebsocketServiceV1GetTradesClient) Recv() (*trade.Trades, error)
 // PashiriWebsocketServiceV1Server is the server API for PashiriWebsocketServiceV1 service.
 type PashiriWebsocketServiceV1Server interface {
 	GetTrades(*market.Market, PashiriWebsocketServiceV1_GetTradesServer) error
+}
+
+// UnimplementedPashiriWebsocketServiceV1Server can be embedded to have forward compatible implementations.
+type UnimplementedPashiriWebsocketServiceV1Server struct {
+}
+
+func (*UnimplementedPashiriWebsocketServiceV1Server) GetTrades(req *market.Market, srv PashiriWebsocketServiceV1_GetTradesServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetTrades not implemented")
 }
 
 func RegisterPashiriWebsocketServiceV1Server(s *grpc.Server, srv PashiriWebsocketServiceV1Server) {
